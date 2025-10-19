@@ -4,8 +4,10 @@ import tree2 from "./assets/tree2.svg";
 import tree3 from "./assets/tree3.svg";
 import { Countdown } from "./components/Countdown";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -15,19 +17,16 @@ function App() {
   const eventDate = useMemo(() => new Date("2025-11-01T18:00:00+05:30"), []);
   const [email,setEmail] = useState("");
 
-  const handleSubmit = ()=>
-    {
-      if(email.endsWith(".ic.25@nitj.ac.in") || email.endsWith(".ic.24@nitj.ac.in") || email.endsWith(".ic.23@nitj.ac.in") || email.endsWith(".ic.22@nitj.ac.in"))
-        {
-          alert("Invited")
-        }
-      else if(email.endsWith("@nitj.ac.in"))
-        {
-          alert("Cursed by Vecna")
-        }
-      else 
-      {
-        alert("You're now stuck in The Upside Down.")
+  const handleSubmit = () => {
+      if(email.endsWith(".ic.25@nitj.ac.in") || email.endsWith(".ic.24@nitj.ac.in") || email.endsWith(".ic.23@nitj.ac.in") || email.endsWith(".ic.22@nitj.ac.in")) {
+        sessionStorage.setItem('userEmail', email);
+        navigate('/ticket');
+      }
+      else if(email.endsWith("@nitj.ac.in")) {
+        navigate('/access-denied');
+      }
+      else {
+        navigate('/external-access');
       }
     }
 
